@@ -19,7 +19,7 @@ func NewSearchCmd(c *api.Client) *ishell.Cmd {
 			}
 			query := strings.Join(ctx.Args, " ")
 			res, err := doSearch(c, query)
-			printSearchResult(ctx, *res, err)
+			printSearchResult(ctx, res, err)
 		},
 		Completer: func([]string) []string {
 			return queryTerms
@@ -38,7 +38,7 @@ func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
 	return c.Search(query, "", user)
 }
 
-func printSearchResult(ctx *ishell.Context, res api.SearchResult, err error) {
+func printSearchResult(ctx *ishell.Context, res *api.SearchResult, err error) {
 	if err != nil {
 		msg := fmt.Sprintf("Search failed: %v", err)
 		ctx.Println(colorRed(msg))

@@ -37,17 +37,17 @@ func NewRegisterCmd(c *api.Client) *ishell.Cmd {
 func doRegister(c *api.Client, username string) error {
 	// validate username
 	if err := validateUsername(username); err != nil {
-		return fmt.Errorf("invalid username %q: %v", username, err)
+		return fmt.Errorf("invalid username: %v", err)
 	}
 
 	// register user on server
 	if err := c.Register(username); err != nil {
-		return fmt.Errorf("failed register %q: %v", username, err)
+		return err
 	}
 
 	// store username in profile file
 	if err := storeUser(username); err != nil {
-		return fmt.Errorf("failed store username %q: %v", username, err)
+		return fmt.Errorf("failed store username: %v", err)
 	}
 
 	return nil

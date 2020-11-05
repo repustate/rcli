@@ -21,13 +21,16 @@ var (
 func loadUser() (string, error) {
 	f := filepath.Join(getHomeDir(), profileFilename)
 	data, err := ioutil.ReadFile(f)
+	if os.IsNotExist(err) {
+		return "", errors.New("user not found, register first")
+	}
 	if err != nil {
 		return "", err
 	}
 
 	username := string(data)
 	if username == "" {
-		return "", errors.New("user not registered")
+		return "", errors.New("user not found, register first")
 	}
 
 	return username, nil
