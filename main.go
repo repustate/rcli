@@ -21,12 +21,12 @@ func main() {
 	shell.DeleteCmd("clear")
 
 	// install user-defined commands
-	for _, cmd := range []*ishell.Cmd{
+	for _, c := range []*ishell.Cmd{
 		cmd.NewRegisterCmd(&api),
 		cmd.NewIndexCmd(&api),
 		cmd.NewSearchCmd(&api),
 	} {
-		shell.AddCmd(cmd)
+		shell.AddCmd(c)
 	}
 
 	// start shell

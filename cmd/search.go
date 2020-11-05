@@ -48,7 +48,7 @@ func printSearchResult(ctx *ishell.Context, res *api.SearchResult, err error) {
 			ctx.Printf("---\nText: %q\nEntities:\n", doc.Text)
 			for _, entity := range doc.Entities {
 				classes := strings.Join(entity.Classifications, ", ")
-				ctx.Printf("%q (%s)", entity.Title, classes)
+				ctx.Printf("%q (%s)\n", entity.Title, classes)
 			}
 		}
 	}
