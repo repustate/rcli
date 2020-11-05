@@ -29,7 +29,8 @@ func NewIndexCmd(c *api.Client) *ishell.Cmd {
 			// index file content
 			data, err := ioutil.ReadFile(ctx.Args[0]) // just pass the file name
 			if err != nil {
-				fmt.Print(err)
+				msg := fmt.Sprintf("failed read file: %v", err)
+				ctx.Println(colorRed(msg))
 				return
 			}
 

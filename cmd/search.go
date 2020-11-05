@@ -18,8 +18,6 @@ func NewSearchCmd(c *api.Client) *ishell.Cmd {
 				return
 			}
 			query := strings.Join(ctx.Args, " ")
-			fmt.Println("QUERY:", query)
-
 			res, err := doSearch(c, query)
 			printSearchResult(ctx, *res, err)
 		},
