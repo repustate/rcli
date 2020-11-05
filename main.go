@@ -10,7 +10,7 @@ import (
 
 func main() {
 	shell := ishell.New()
-	shell.Println("Repustate DeepSearch CLI")
+	shell.Println("Repustate multilingual semantic search CLI")
 
 	api, err := client.New()
 	if err != nil {

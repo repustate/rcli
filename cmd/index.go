@@ -12,9 +12,8 @@ import (
 
 func NewIndexCmd(c *api.Client) *ishell.Cmd {
 	indexCmd := &ishell.Cmd{
-		Name:     "index",
-		Help:     "index document for deep search",
-		LongHelp: ``,
+		Name: "index",
+		Help: "index document for further multilingual semantic searches",
 	}
 
 	indexCmd.AddCmd(&ishell.Cmd{
