@@ -26,6 +26,7 @@ var (
 	}
 )
 
+// registerCmd represents the text index command
 func newIndexCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "index",
@@ -40,12 +41,13 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 			lang := cmd.Flag(langFlag).Value.String()
 
 			if text == "" && filename == "" {
-				msg := fmt.Sprintf("'--text' or '--filename' is required")
-				fmt.Println(colorRed(msg))
+				msg := fmt.Sprintf("one of '--text' or '--filename' is required")
+				printErr(msg)
+				return
 			}
 			if text != "" && filename != "" {
-				msg := fmt.Sprintf("one of '--text' or '--filename' is allowed")
-				fmt.Println(colorRed(msg))
+				msg := fmt.Sprintf("only one of '--text' or '--filename' is allowed")
+				printErr(msg)
 				return
 			}
 
@@ -53,7 +55,7 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 				data, err := ioutil.ReadFile(filename)
 				if err != nil {
 					msg := fmt.Sprintf("failed read file: %v", err)
-					fmt.Println(colorRed(msg))
+					printErr(msg)
 					return
 				}
 
@@ -62,10 +64,10 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 
 			if err := doIndex(c, text, lang); err != nil {
 				msg := fmt.Sprintf("Failed index document: %v", err)
-				fmt.Println(colorRed(msg))
+				printErr(msg)
 				return
 			} else {
-				fmt.Println(colorBlue("Document successfully indexed"))
+				printMsg("Document successfully indexed")
 			}
 		},
 	}

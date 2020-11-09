@@ -13,6 +13,7 @@ const (
 	queryFlag = "query"
 )
 
+// registerCmd represents the search command
 func newSearchCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search",
@@ -20,7 +21,7 @@ func newSearchCmd(c *api.Client) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			query := cmd.Flag(queryFlag).Value.String()
 			if query == "" {
-				fmt.Println(colorRed("missing query"))
+				printErr("missing query")
 				return
 			}
 			res, err := doSearch(c, query)
@@ -58,7 +59,7 @@ func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
 func printSearchResult(res *api.SearchResult, err error) {
 	if err != nil {
 		msg := fmt.Sprintf("Search failed: %v", err)
-		fmt.Println(colorRed(msg))
+		printErr(msg)
 	} else {
 		fmt.Printf("Found %d results:\n", res.Total)
 		for _, doc := range res.Documents {

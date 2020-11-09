@@ -9,21 +9,11 @@ import (
 	client "github.com/repustate/cli/api-client/v4"
 )
 
-var cfgFile string
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "rcli",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Use:   "cli",
+	Short: "Repustate CLI for semantic search demo",
+	Long:  `Command-line interface that allows to try out Repustate semantic search without any registration needed`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -31,7 +21,7 @@ to quickly create a Cobra application.`,
 func Execute() {
 	api, err := client.New()
 	if err != nil {
-		fmt.Println(colorRed(err.Error()))
+		printErr(err.Error())
 		os.Exit(1)
 	}
 

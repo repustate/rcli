@@ -11,7 +11,6 @@ import (
 )
 
 // registerCmd represents the register command
-
 func newRegisterCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "register",
@@ -22,7 +21,7 @@ func newRegisterCmd(c *api.Client) *cobra.Command {
 			username, err := reader.ReadString('\n')
 			if err != nil {
 				msg := fmt.Sprintf("Bad input: %v", err)
-				fmt.Println(colorRed(msg))
+				printErr(msg)
 				return
 			}
 
@@ -31,17 +30,14 @@ func newRegisterCmd(c *api.Client) *cobra.Command {
 
 			err = doRegister(c, username)
 			if err != nil {
-				msg := fmt.Sprintf("Failed register user %q: %v", username, err)
-				fmt.Println(colorRed(msg))
+				printErr(err.Error())
 			} else {
-				fmt.Println(colorBlue("Congratulations! " +
+				printMsg("Congratulations! " +
 					"You’re registered and are now ready to use " +
-					"Repustate’s semantic search demo"))
+					"Repustate’s semantic search demo")
 			}
 		},
 	}
-
-	cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	return cmd
 }
@@ -49,17 +45,17 @@ func newRegisterCmd(c *api.Client) *cobra.Command {
 func doRegister(c *api.Client, username string) error {
 	// validate username
 	if err := validateUsername(username); err != nil {
-		return fmt.Errorf("invalid username: %v", err)
+		return fmt.Errorf("invalid username %q: %v", username, err)
 	}
 
 	// register user on server
 	if err := c.Register(username); err != nil {
-		return err
+		return fmt.Errorf("failed register user %q: %v", username, err)
 	}
 
 	// store username in profile file
 	if err := storeUser(username); err != nil {
-		return fmt.Errorf("failed store username: %v", err)
+		return fmt.Errorf("failed save user: %v", err)
 	}
 
 	return nil

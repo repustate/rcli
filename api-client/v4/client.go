@@ -125,7 +125,7 @@ func requestDo(r *http.Request) ([]byte, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("server responded '%q: %v'", resp.Status, string(body))
+		return nil, fmt.Errorf("server responded %q", resp.Status)
 	}
 
 	return body, nil

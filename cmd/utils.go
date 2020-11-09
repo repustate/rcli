@@ -2,12 +2,13 @@ package cmd
 
 import (
 	"errors"
-	"github.com/fatih/color"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
+
+	"github.com/fatih/color"
 )
 
 const (
@@ -73,9 +74,14 @@ func validateUsername(u string) error {
 	return nil
 }
 
-func colorBlue(s string) string {
-	return color.New(color.FgBlue).Sprint(s)
+func printMsg(s string) {
+	printColor(color.FgBlue, s)
 }
-func colorRed(s string) string {
-	return color.New(color.FgRed).Sprint(s)
+
+func printErr(s string) {
+	printColor(color.FgRed, s)
+}
+
+func printColor(c color.Attribute, s string) {
+	color.New(c).Println(s)
 }
