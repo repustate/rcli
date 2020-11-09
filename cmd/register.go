@@ -1,37 +1,48 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"github.com/spf13/cobra"
+	"os"
+	"strings"
 
-	"github.com/abiosoft/ishell"
-
-	api "github.com/repustate/cli/repustate-client/v4"
+	api "github.com/repustate/cli/api-client/v4"
 )
 
-func NewRegisterCmd(c *api.Client) *ishell.Cmd {
-	return &ishell.Cmd{
-		Name: "register",
-		Func: func(ctx *ishell.Context) {
-			ctx.ShowPrompt(false)
-			defer ctx.ShowPrompt(true)
+// registerCmd represents the register command
 
-			// prompt for input
-			ctx.Println("Please enter a username and hit enter:")
-			username := ctx.ReadLine()
+func newRegisterCmd(c *api.Client) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "register",
+		Short: "Registers user for demo",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			fmt.Println("Please enter a username and hit enter:")
+			reader := bufio.NewReader(os.Stdin)
+			username, err := reader.ReadString('\n')
+			if err != nil {
+				return err
+			}
 
-			// do register
-			err := doRegister(c, username)
+			username = strings.TrimSuffix(username, "\n")
+			username = strings.TrimSuffix(username, "\r")
+
+			err = doRegister(c, username)
 			if err != nil {
 				msg := fmt.Sprintf("Failed register user %q: %v", username, err)
-				ctx.Println(colorRed(msg))
+				fmt.Println(colorRed(msg))
 			} else {
-				ctx.Println(colorBlue("Congratulations! " +
+				fmt.Println(colorBlue("Congratulations! " +
 					"You’re registered and are now ready to use " +
 					"Repustate’s semantic search demo"))
 			}
+			return err
 		},
-		Help: "registers user for demo",
 	}
+
+	cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	return cmd
 }
 
 func doRegister(c *api.Client, username string) error {

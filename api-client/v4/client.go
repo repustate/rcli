@@ -64,13 +64,10 @@ func (c *Client) Index(text, lang, user string) error {
 	return err
 }
 
-func (c *Client) Search(query, lang, user string) (*SearchResult, error) {
+func (c *Client) Search(query, user string) (*SearchResult, error) {
 	q := url.Values{}
 	q.Set("username", user)
 	q.Set("query", query)
-	if lang != "" {
-		q.Set("lang", lang)
-	}
 
 	req, err := c.newRequest("search", http.MethodGet, q, nil)
 	if err != nil {
@@ -128,7 +125,7 @@ func requestDo(r *http.Request) ([]byte, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed execute request: %v - %v", resp.Status, string(body))
+		return nil, fmt.Errorf("server responded '%q: %v'", resp.Status, string(body))
 	}
 
 	return body, nil

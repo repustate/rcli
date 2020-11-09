@@ -1,32 +1,50 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/abiosoft/ishell"
+	"github.com/spf13/cobra"
 
-	api "github.com/repustate/cli/repustate-client/v4"
+	api "github.com/repustate/cli/api-client/v4"
 )
 
-func NewSearchCmd(c *api.Client) *ishell.Cmd {
-	return &ishell.Cmd{
-		Name: "search",
-		Func: func(ctx *ishell.Context) {
-			if len(ctx.Args) == 0 {
-				ctx.Println(colorRed("missing query"))
-				return
-			}
-			query := strings.Join(ctx.Args, " ")
-			res, err := doSearch(c, query)
-			printSearchResult(ctx, res, err)
-		},
-		Completer: func([]string) []string {
-			return queryTerms
-		},
+const (
+	queryFlag = "query"
+)
 
-		Help: "search documents for provided query",
+func newSearchCmd(c *api.Client) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "search",
+		Short: "Finds documents for provided query",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			query := cmd.Flag(queryFlag).Value.String()
+			if query == "" {
+				return errors.New("missing query")
+			}
+			res, err := doSearch(c, query)
+			printSearchResult(res, err)
+			return nil
+		},
 	}
+
+	cmd.Flags().StringP(queryFlag, "q", "", "Help message for toggle")
+	cmd.MarkFlagRequired(queryFlag)
+
+	// add 'list-terms' subcommand
+	queryTerms := &cobra.Command{
+		Use:   "list-terms",
+		Short: "Lists valid search query terms",
+		Run: func(cmd *cobra.Command, args []string) {
+			for _, term := range queryTerms {
+				fmt.Println(term)
+			}
+		},
+	}
+
+	cmd.AddCommand(queryTerms)
+	return cmd
 }
 
 func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
@@ -35,20 +53,20 @@ func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
 		return nil, err
 	}
 
-	return c.Search(query, "", user)
+	return c.Search(query, user)
 }
 
-func printSearchResult(ctx *ishell.Context, res *api.SearchResult, err error) {
+func printSearchResult(res *api.SearchResult, err error) {
 	if err != nil {
 		msg := fmt.Sprintf("Search failed: %v", err)
-		ctx.Println(colorRed(msg))
+		fmt.Println(colorRed(msg))
 	} else {
-		ctx.Printf("Found %d results:\n", res.Total)
+		fmt.Printf("Found %d results:\n", res.Total)
 		for _, doc := range res.Documents {
-			ctx.Printf("---\nText: %q\nEntities:\n", doc.Text)
+			fmt.Printf("---\nText: %q\nEntities:\n", doc.Text)
 			for _, entity := range doc.Entities {
 				classes := strings.Join(entity.Classifications, ", ")
-				ctx.Printf("%q (%s)\n", entity.Title, classes)
+				fmt.Printf("%q (%s)\n", entity.Title, classes)
 			}
 		}
 	}

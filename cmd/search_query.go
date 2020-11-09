@@ -1,16 +1,6 @@
 package cmd
 
 var (
-	languageCodes = []string{
-		"en",
-		"ar",
-		"fr",
-		"it",
-		"ru",
-		"pt",
-		"de",
-	}
-
 	// list of valid query terms to be used for search
 	queryTerms = []string{
 		"Animal.amphibian",
