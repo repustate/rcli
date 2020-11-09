@@ -18,6 +18,11 @@ func newSearchCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search",
 		Short: "Finds documents for provided query",
+		Long: `Run multilingual semantic search across indexed documents using query provided. 
+Usage example:
+cli search -q=Location.city
+
+To list all available query terms use help.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			query := cmd.Flag(queryFlag).Value.String()
 			if query == "" {

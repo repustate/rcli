@@ -31,8 +31,9 @@ func newIndexCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "index",
 		Short: "Index document for further multilingual semantic searches",
-		Long: fmt.Sprintf(`Index document for further multilingual semantic searches. Usage example:
-index -t="The weather in London is good" -l=en
+		Long: fmt.Sprintf(`Index document for further multilingual semantic searches.
+Usage example:
+cli index -t="The weather in London is good" -l=en
 
 Valid language codes: %s`, strings.Join(validLangs, ", ")),
 		Run: func(cmd *cobra.Command, args []string) {
@@ -43,11 +44,13 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 			if text == "" && filename == "" {
 				msg := fmt.Sprintf("one of '--text' or '--filename' is required")
 				printErr(msg)
+				cmd.Usage()
 				return
 			}
 			if text != "" && filename != "" {
-				msg := fmt.Sprintf("only one of '--text' or '--filename' is allowed")
+				msg := fmt.Sprintf("one of '--text' or '--filename' should be used")
 				printErr(msg)
+				cmd.Usage()
 				return
 			}
 
@@ -73,7 +76,7 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 	}
 
 	cmd.Flags().StringP(textFlag, "t", "", "Text to index")
-	cmd.Flags().StringP(fileFlag, "f", "", "Filename with content to index")
+	cmd.Flags().StringP(fileFlag, "f", "", "File with text content to index")
 	cmd.MarkFlagFilename(fileFlag)
 	cmd.Flags().StringP(langFlag, "l", "", "Content language")
 
