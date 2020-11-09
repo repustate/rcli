@@ -73,6 +73,7 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 				printMsg("Document successfully indexed")
 			}
 		},
+		Example: "index -text=\"Toronto is the capital of Canada.\" -l=en\r\nindex -filename=~/myfiles/data.txt",
 	}
 
 	cmd.Flags().StringP(textFlag, "t", "", "Text to index")
