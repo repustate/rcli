@@ -16,7 +16,7 @@ const (
 )
 
 var (
-	usernameRegexp = regexp.MustCompile(`^\d*[a-zA-Z][a-zA-Z0-9_]*$`)
+	usernameRegexp = regexp.MustCompile(`^\d*[a-zA-Z][a-zA-Z0-9_@\.]*$`)
 )
 
 func loadUser() (string, error) {
@@ -68,7 +68,7 @@ func getHomeDir() string {
 
 func validateUsername(u string) error {
 	if !usernameRegexp.MatchString(u) {
-		return errors.New("only alphanumeric values and '_' are allowed")
+		return errors.New("only alphanumeric values, '@' and '_' are allowed")
 	}
 
 	return nil
