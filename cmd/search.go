@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -18,19 +17,16 @@ func newSearchCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search",
 		Short: "Finds documents for provided query",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		Run: func(cmd *cobra.Command, args []string) {
 			query := cmd.Flag(queryFlag).Value.String()
 			if query == "" {
-				return errors.New("missing query")
+				fmt.Println(colorRed("missing query"))
+				return
 			}
 			res, err := doSearch(c, query)
 			printSearchResult(res, err)
-			return nil
 		},
 	}
-
-	cmd.Flags().StringP(queryFlag, "q", "", "Help message for toggle")
-	cmd.MarkFlagRequired(queryFlag)
 
 	// add 'list-terms' subcommand
 	queryTerms := &cobra.Command{
@@ -42,8 +38,11 @@ func newSearchCmd(c *api.Client) *cobra.Command {
 			}
 		},
 	}
-
 	cmd.AddCommand(queryTerms)
+
+	cmd.Flags().StringP(queryFlag, "q", "", "Search query to use")
+	cmd.MarkFlagRequired(queryFlag)
+
 	return cmd
 }
 

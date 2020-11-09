@@ -16,12 +16,14 @@ func newRegisterCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "register",
 		Short: "Registers user for demo",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("Please enter a username and hit enter:")
 			reader := bufio.NewReader(os.Stdin)
 			username, err := reader.ReadString('\n')
 			if err != nil {
-				return err
+				msg := fmt.Sprintf("Bad input: %v", err)
+				fmt.Println(colorRed(msg))
+				return
 			}
 
 			username = strings.TrimSuffix(username, "\n")
@@ -36,7 +38,6 @@ func newRegisterCmd(c *api.Client) *cobra.Command {
 					"You’re registered and are now ready to use " +
 					"Repustate’s semantic search demo"))
 			}
-			return err
 		},
 	}
 

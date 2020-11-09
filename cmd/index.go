@@ -34,17 +34,27 @@ func newIndexCmd(c *api.Client) *cobra.Command {
 index -t="The weather in London is good" -l=en
 
 Valid language codes: %s`, strings.Join(validLangs, ", ")),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		Run: func(cmd *cobra.Command, args []string) {
 			text := cmd.Flag(textFlag).Value.String()
 			filename := cmd.Flag(fileFlag).Value.String()
 			lang := cmd.Flag(langFlag).Value.String()
+
+			if text == "" && filename == "" {
+				msg := fmt.Sprintf("'--text' or '--filename' is required")
+				fmt.Println(colorRed(msg))
+			}
+			if text != "" && filename != "" {
+				msg := fmt.Sprintf("one of '--text' or '--filename' is allowed")
+				fmt.Println(colorRed(msg))
+				return
+			}
 
 			if text == "" {
 				data, err := ioutil.ReadFile(filename)
 				if err != nil {
 					msg := fmt.Sprintf("failed read file: %v", err)
 					fmt.Println(colorRed(msg))
-					return err
+					return
 				}
 
 				text = string(data)
@@ -53,19 +63,17 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 			if err := doIndex(c, text, lang); err != nil {
 				msg := fmt.Sprintf("Failed index document: %v", err)
 				fmt.Println(colorRed(msg))
-				return err
+				return
 			} else {
 				fmt.Println(colorBlue("Document successfully indexed"))
 			}
-
-			return nil
 		},
 	}
 
-	cmd.Flags().StringP(textFlag, "t", "", "Help message for toggle")
-	cmd.Flags().StringP(fileFlag, "f", "", "Help message for toggle")
+	cmd.Flags().StringP(textFlag, "t", "", "Text to index")
+	cmd.Flags().StringP(fileFlag, "f", "", "Filename with content to index")
 	cmd.MarkFlagFilename(fileFlag)
-	cmd.Flags().StringP(langFlag, "l", "", "Help message for toggle")
+	cmd.Flags().StringP(langFlag, "l", "", "Content language")
 
 	return cmd
 }
