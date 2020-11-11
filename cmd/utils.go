@@ -1,11 +1,9 @@
 package cmd
 
 import (
-	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"runtime"
 
 	"github.com/fatih/color"
@@ -15,29 +13,17 @@ const (
 	profileFilename = ".repustate"
 )
 
-var (
-	usernameRegexp = regexp.MustCompile(`^\d*[a-zA-Z][a-zA-Z0-9_]*$`)
-)
-
-func loadUser() (string, error) {
+func loadUserUUID() string {
 	f := filepath.Join(getHomeDir(), profileFilename)
 	data, err := ioutil.ReadFile(f)
-	if os.IsNotExist(err) {
-		return "", errors.New("user not found")
-	}
 	if err != nil {
-		return "", err
+		return ""
 	}
 
-	username := string(data)
-	if username == "" {
-		return "", errors.New("user not found")
-	}
-
-	return username, nil
+	return string(data)
 }
 
-func storeUser(u string) error {
+func storeUserUUID(uuid string) error {
 	filename := filepath.Join(getHomeDir(), profileFilename)
 
 	f, err := os.Create(filename)
@@ -46,7 +32,7 @@ func storeUser(u string) error {
 	}
 	defer f.Close()
 
-	_, err = f.WriteString(u)
+	_, err = f.WriteString(uuid)
 	return err
 }
 
@@ -64,14 +50,6 @@ func getHomeDir() string {
 		return home
 	}
 	return os.Getenv("HOME")
-}
-
-func validateUsername(u string) error {
-	if !usernameRegexp.MatchString(u) {
-		return errors.New("only alphanumeric values and '_' are allowed")
-	}
-
-	return nil
 }
 
 func printMsg(s string) {

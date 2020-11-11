@@ -29,14 +29,15 @@ To list all available query terms use '--list-terms'`,
 				}
 				return
 			}
-
 			if len(args) == 0 {
 				printErr("search query is required")
 				cmd.Usage()
 				return
 			}
+
 			query := strings.Join(args, " ")
-			res, err := doSearch(c, query)
+			res, err := c.Search(query, userUuid)
+
 			printSearchResult(res, err)
 		},
 		ValidArgs: queryTerms,
@@ -46,15 +47,6 @@ To list all available query terms use '--list-terms'`,
 	cmd.Flags().Bool(listTerms, false, "Lists available query terms")
 
 	return cmd
-}
-
-func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
-	user, err := loadUser()
-	if err != nil {
-		return nil, err
-	}
-
-	return c.Search(query, user)
 }
 
 func printSearchResult(res *api.SearchResult, err error) {
