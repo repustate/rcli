@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	queryFlag = "query"
+	listTerms = "list-terms"
 )
 
 // registerCmd represents the search command
@@ -19,46 +19,34 @@ func newSearchCmd(c *api.Client) *cobra.Command {
 		Use:   "search",
 		Short: "Finds documents for provided query",
 		Long: `Run multilingual semantic search across indexed documents using query provided. 
-Usage example:
-cli search -q=Location.city
 
-To list all available query terms use help.`,
+To list all available query terms use '--list-terms'`,
 		Run: func(cmd *cobra.Command, args []string) {
-			query := cmd.Flag(queryFlag).Value.String()
-			if query == "" {
-				printErr("missing query")
+			printTerms := cmd.Flag(listTerms).Value.String()
+			if printTerms == "true" {
+				for _, term := range queryTerms {
+					fmt.Println(term)
+				}
 				return
 			}
-			res, err := doSearch(c, query)
+			if len(args) == 0 {
+				printErr("search query is required")
+				cmd.Usage()
+				return
+			}
+
+			query := strings.Join(args, " ")
+			res, err := c.Search(query, userUuid)
+
 			printSearchResult(res, err)
 		},
+		ValidArgs: queryTerms,
+		Example:   "search Location.city\r\nsearch --list-terms",
 	}
 
-	// add 'list-terms' subcommand
-	queryTerms := &cobra.Command{
-		Use:   "list-terms",
-		Short: "Lists valid search query terms",
-		Run: func(cmd *cobra.Command, args []string) {
-			for _, term := range queryTerms {
-				fmt.Println(term)
-			}
-		},
-	}
-	cmd.AddCommand(queryTerms)
-
-	cmd.Flags().StringP(queryFlag, "q", "", "Search query to use")
-	cmd.MarkFlagRequired(queryFlag)
+	cmd.Flags().Bool(listTerms, false, "Lists available query terms")
 
 	return cmd
-}
-
-func doSearch(c *api.Client, query string) (*api.SearchResult, error) {
-	user, err := loadUser()
-	if err != nil {
-		return nil, err
-	}
-
-	return c.Search(query, user)
 }
 
 func printSearchResult(res *api.SearchResult, err error) {

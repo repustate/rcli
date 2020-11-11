@@ -65,14 +65,15 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 				text = string(data)
 			}
 
-			if err := doIndex(c, text, lang); err != nil {
+			err := c.Index(text, lang, userUuid)
+			if err != nil {
 				msg := fmt.Sprintf("Failed index document: %v", err)
 				printErr(msg)
-				return
 			} else {
 				printMsg("Document successfully indexed")
 			}
 		},
+		Example: "index -text=\"Toronto is the capital of Canada.\" -l=en\r\nindex -filename=~/myfiles/data.txt",
 	}
 
 	cmd.Flags().StringP(textFlag, "t", "", "Text to index")
@@ -81,13 +82,4 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 	cmd.Flags().StringP(langFlag, "l", "", "Content language")
 
 	return cmd
-}
-
-func doIndex(c *api.Client, text, lang string) error {
-	user, err := loadUser()
-	if err != nil {
-		return err
-	}
-
-	return c.Index(text, lang, user)
 }

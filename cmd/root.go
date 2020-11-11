@@ -4,17 +4,30 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
 	client "github.com/repustate/cli/api-client/v4"
 )
 
 // rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "cli",
-	Short: "Repustate CLI for Semantic Search",
-	Long:  `Command-line interface to Repustate's Semantic Search engine`,
-}
+var (
+	userUuid = ""
+
+	rootCmd = &cobra.Command{
+		Use:   "cli",
+		Short: "Repustate CLI for Semantic Search",
+		Long:  `Command-line interface to Repustate's Semantic Search engine`,
+		// populates user uuid every time executed
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			userUuid := loadUserUUID()
+			if userUuid == "" {
+				userUuid = uuid.New().String()
+				storeUserUUID(userUuid)
+			}
+		},
+	}
+)
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
@@ -27,7 +40,6 @@ func Execute() {
 
 	// install user-defined commands
 	for _, c := range []*cobra.Command{
-		newRegisterCmd(&api),
 		newIndexCmd(&api),
 		newSearchCmd(&api),
 	} {
