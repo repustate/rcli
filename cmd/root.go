@@ -12,8 +12,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "cli",
-	Short: "Repustate CLI for semantic search demo",
-	Long:  `Command-line interface that allows to try out Repustate semantic search without any registration needed`,
+	Short: "Repustate CLI for Semantic Search",
+	Long:  `Command-line interface to Repustate's Semantic Search engine`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

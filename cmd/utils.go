@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	profileFilename = ".repustate"
+	profileFilename   = ".repustate"
+	userNotFoundError = "No user details found. You have to run the `register` command first"
 )
 
 var (
@@ -23,7 +24,7 @@ func loadUser() (string, error) {
 	f := filepath.Join(getHomeDir(), profileFilename)
 	data, err := ioutil.ReadFile(f)
 	if os.IsNotExist(err) {
-		return "", errors.New("user not found")
+		return "", errors.New(userNotFoundError)
 	}
 	if err != nil {
 		return "", err
@@ -31,7 +32,7 @@ func loadUser() (string, error) {
 
 	username := string(data)
 	if username == "" {
-		return "", errors.New("user not found")
+		return "", errors.New(userNotFoundError)
 	}
 
 	return username, nil
