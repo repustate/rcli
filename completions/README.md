@@ -2,8 +2,8 @@
 This folder contains pre-cooked completion files for some shells.
 To enable autocompletion for `cli` source corresponding files.
 
-#### Enable completions for `bash` shell
-To enable `cli` completions for `bash` shell:
+#### Bash
+To enable completions for `bash` shell:
 1. Install completions package following ['Install bash-completion'](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-bash-completion) guide
 2. Source the completion file:
 ```echo 'source <(cli completion bash)' >>~/.bashrc```
@@ -11,7 +11,8 @@ To enable `cli` completions for `bash` shell:
 ```cp ./completions/completions_bash /etc/bash_completion.d/cli```
 4. Restart the shell
 
-#### Enable completions for `PowerShell` shell
+#### PowerShell
+To enable completions for `PowerShell`:
 1. Make sure `PowerShell` profile file exists using command:
 ```Test-Path $profile```
 2. (Skip, if profile exists) If profile file does not exist, create one:
