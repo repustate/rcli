@@ -25,7 +25,6 @@ var (
 			if userUuid == "" {
 				userUuid = uuid.New().String()
 				storeUserUUID(userUuid)
-				fmt.Println("no uuid found, generated:", userUuid)
 			}
 		},
 	}
