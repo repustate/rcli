@@ -46,15 +46,15 @@ func (c *Client) Register(user string) error {
 }
 
 func (c *Client) Index(text, lang, user string) error {
-	data := map[string]interface{}{
-		"username": user,
-		"text":     text,
-	}
 	q := url.Values{}
+	q.Set("username", user)
 	if lang != "" {
-		q["lang"] = []string{lang}
+		q.Set("lang", lang)
 	}
 
+	data := map[string]interface{}{
+		"text": text,
+	}
 	req, err := c.newRequest("index", http.MethodPost, q, data)
 	if err != nil {
 		return err
