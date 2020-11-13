@@ -13,9 +13,8 @@ import (
 )
 
 const (
-	apiVersion = "v4"
-	basePath   = "demo"
-	serverURL  = "http://try.repustate.com:9000"
+	basePath  = "demo"
+	serverURL = "http://try.repustate.com:9000"
 )
 
 type Client struct {
