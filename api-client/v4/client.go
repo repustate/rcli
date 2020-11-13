@@ -32,19 +32,6 @@ func New() (Client, error) {
 	}, nil
 }
 
-func (c *Client) Register(user string) error {
-	data := map[string]interface{}{
-		"username": user,
-	}
-	req, err := c.newRequest("register", http.MethodPost, nil, data)
-	if err != nil {
-		return err
-	}
-
-	_, err = requestDo(req)
-	return err
-}
-
 func (c *Client) Index(text, lang, user string) error {
 	q := url.Values{}
 	q.Set("username", user)

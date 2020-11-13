@@ -11,6 +11,7 @@ import (
 
 const (
 	listTerms = "list-terms"
+	anyValue  = ":*"
 )
 
 // registerCmd represents the search command
@@ -35,8 +36,8 @@ To list all available query terms use '--list-terms'`,
 				return
 			}
 
-			query := strings.Join(args, " ")
-			res, err := c.Search(query, userUuid)
+			term := strings.Join(args, " ")
+			res, err := c.Search(term+anyValue, userUuid)
 
 			printSearchResult(res, err)
 		},

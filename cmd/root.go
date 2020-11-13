@@ -20,7 +20,7 @@ var (
 		Long:  `Command-line interface to Repustate's Semantic Search engine`,
 		// populates user uuid every time executed
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			userUuid := loadUserUUID()
+			userUuid = loadUserUUID()
 			if userUuid == "" {
 				userUuid = uuid.New().String()
 				storeUserUUID(userUuid)
