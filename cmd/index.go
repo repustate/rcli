@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	api "github.com/repustate/cli/api-client/v4"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"strings"
+
+	api "github.com/repustate/cli/api-client/v4"
+	"github.com/spf13/cobra"
 )
 
 const (
@@ -48,7 +49,7 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 				return
 			}
 			if text != "" && filename != "" {
-				msg := fmt.Sprintf("one of '--text' or '--filename' should be used")
+				msg := fmt.Sprintf("only one of '--text' or '--filename' should be used")
 				printErr(msg)
 				cmd.Usage()
 				return
@@ -57,7 +58,7 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 			if text == "" {
 				data, err := ioutil.ReadFile(filename)
 				if err != nil {
-					msg := fmt.Sprintf("failed read file: %v", err)
+					msg := fmt.Sprintf("failed to read file: %v", err)
 					printErr(msg)
 					return
 				}
@@ -67,19 +68,19 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 
 			err := c.Index(text, lang, userUuid)
 			if err != nil {
-				msg := fmt.Sprintf("Failed index document: %v", err)
+				msg := fmt.Sprintf("Failed to index document: %v", err)
 				printErr(msg)
 			} else {
 				printMsg("Document successfully indexed")
 			}
 		},
-		Example: "index -text=\"Toronto is the capital of Canada.\" -l=en\r\nindex -filename=~/myfiles/data.txt",
+		Example: "index --text=\"Paris is the capitol of France.\" -l=en\r\nindex --filename=~/myfiles/data.txt",
 	}
 
 	cmd.Flags().StringP(textFlag, "t", "", "Text to index")
 	cmd.Flags().StringP(fileFlag, "f", "", "File with text content to index")
 	cmd.MarkFlagFilename(fileFlag)
-	cmd.Flags().StringP(langFlag, "l", "", "Content language")
+	cmd.Flags().StringP(langFlag, "l", "", "Content language (default is English)")
 
 	return cmd
 }
