@@ -14,7 +14,7 @@ import (
 
 const (
 	basePath  = "demo"
-	serverURL = "https://try.repustate.com:9000"
+	serverURL = "http://try.repustate.com:9000"
 )
 
 type Client struct {
