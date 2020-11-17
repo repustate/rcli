@@ -5,7 +5,7 @@ A command line interface for trying out [Repustate's multilingual semantic searc
 ## Install & Usage
 
 1. Download the binary for your OS. Make sure it's executable and in your path (otherwise prepend ./ to `rcli` below)
-2. Run `rcli -t "I love Repustate"` to index your first document.
+2. Run `rcli index -t "I love Repustate"` to index your first document.
 3. Run `rcli search Org.business` to search your newly created index.
 4. Run `rcli help` to see available commands and other options.
 
