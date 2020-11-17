@@ -8,11 +8,11 @@ Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-Register-ArgumentCompleter -Native -CommandName 'cli' -ScriptBlock {
+Register-ArgumentCompleter -Native -CommandName 'rcli' -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
     $commandElements = $commandAst.CommandElements
     $command = @(
-        'cli'
+        'rcli'
         for ($i = 1; $i -lt $commandElements.Count; $i++) {
             $element = $commandElements[$i]
             if ($element -isnot [StringConstantExpressionAst] -or
@@ -24,16 +24,16 @@ Register-ArgumentCompleter -Native -CommandName 'cli' -ScriptBlock {
         }
     ) -join ';'
     $completions = @(switch ($command) {
-        'cli' {
+        'rcli' {
             [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Help about any command')
             [CompletionResult]::new('index', 'index', [CompletionResultType]::ParameterValue, ' Index document for further multilingual semantic searches')
             [CompletionResult]::new('search', 'search', [CompletionResultType]::ParameterValue, 'Finds documents for provided query')
             break
         }
-        'cli;help' {
+        'rcli;help' {
             break
         }
-        'cli;index' {
+        'rcli;index' {
             [CompletionResult]::new('-f', 'f', [CompletionResultType]::ParameterName, 'File with text content to index')
             [CompletionResult]::new('--file', 'file', [CompletionResultType]::ParameterName, 'File with text content to index')
             [CompletionResult]::new('-l', 'l', [CompletionResultType]::ParameterName, 'Content language')
@@ -42,7 +42,7 @@ Register-ArgumentCompleter -Native -CommandName 'cli' -ScriptBlock {
             [CompletionResult]::new('--text', 'text', [CompletionResultType]::ParameterName, 'Text to index')
             break
         }
-        'cli;search' {
+        'rcli;search' {
             [CompletionResult]::new('--list-terms', 'list-terms', [CompletionResultType]::ParameterName, 'Lists available query terms')
 			[CompletionResult]::new('Animal.amphibian','Animal.amphibian',[CompletionResultType]::ParameterName,'Animal.amphibian')
 			[CompletionResult]::new('Animal.bird','Animal.bird',[CompletionResultType]::ParameterName,'Animal.bird')
@@ -364,6 +364,36 @@ Register-ArgumentCompleter -Native -CommandName 'cli' -ScriptBlock {
 			[CompletionResult]::new('Time.season','Time.season',[CompletionResultType]::ParameterName,'Time.season')
 			[CompletionResult]::new('Time.time_of_day','Time.time_of_day',[CompletionResultType]::ParameterName,'Time.time_of_day')
 			[CompletionResult]::new('Time.year','Time.year',[CompletionResultType]::ParameterName,'Time.year')
+			[CompletionResult]::new('arts','arts',[CompletionResultType]::ParameterName,'arts')
+            [CompletionResult]::new('automotive','automotive',[CompletionResultType]::ParameterName,'automotive')
+            [CompletionResult]::new('business','business',[CompletionResultType]::ParameterName,'business')
+            [CompletionResult]::new('education','education',[CompletionResultType]::ParameterName,'education')
+            [CompletionResult]::new('energy','energy',[CompletionResultType]::ParameterName,'energy')
+            [CompletionResult]::new('entertainment','entertainment',[CompletionResultType]::ParameterName,'entertainment')
+            [CompletionResult]::new('fashion','fashion',[CompletionResultType]::ParameterName,'fashion')
+            [CompletionResult]::new('finance','finance',[CompletionResultType]::ParameterName,'finance')
+            [CompletionResult]::new('food','food',[CompletionResultType]::ParameterName,'food')
+            [CompletionResult]::new('genders','genders',[CompletionResultType]::ParameterName,'genders')
+            [CompletionResult]::new('health','health',[CompletionResultType]::ParameterName,'health')
+            [CompletionResult]::new('law','law',[CompletionResultType]::ParameterName,'law')
+            [CompletionResult]::new('media','media',[CompletionResultType]::ParameterName,'media')
+            [CompletionResult]::new('military','military',[CompletionResultType]::ParameterName,'military')
+            [CompletionResult]::new('music','music',[CompletionResultType]::ParameterName,'music')
+            [CompletionResult]::new('politics','politics',[CompletionResultType]::ParameterName,'politics')
+            [CompletionResult]::new('religion','religion',[CompletionResultType]::ParameterName,'religion')
+            [CompletionResult]::new('science','science',[CompletionResultType]::ParameterName,'science')
+            [CompletionResult]::new('sex','sex',[CompletionResultType]::ParameterName,'sex')
+            [CompletionResult]::new('space','space',[CompletionResultType]::ParameterName,'space')
+            [CompletionResult]::new('sports','sports',[CompletionResultType]::ParameterName,'sports')
+            [CompletionResult]::new('technology','technology',[CompletionResultType]::ParameterName,'technology')
+            [CompletionResult]::new('transportation','transportation',[CompletionResultType]::ParameterName,'transportation')
+            [CompletionResult]::new('weather','weather',[CompletionResultType]::ParameterName,'weather')
+            [CompletionResult]::new('positive','positive',[CompletionResultType]::ParameterName,'positive",
+            [CompletionResult]::new('pos','pos',[CompletionResultType]::ParameterName,'pos')
+            [CompletionResult]::new('negative','negative',[CompletionResultType]::ParameterName,'negative')
+            [CompletionResult]::new('neg','neg',[CompletionResultType]::ParameterName,'neg')
+            [CompletionResult]::new('neutral','neutral',[CompletionResultType]::ParameterName,'neutral')
+            [CompletionResult]::new('neu','neu',[CompletionResultType]::ParameterName,'neu')
             break
         }
     })

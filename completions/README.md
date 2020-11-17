@@ -1,14 +1,14 @@
 ### Search query completions
 This folder contains pre-cooked completion files for some shells.
-To enable autocompletion for `cli` source corresponding files.
+To enable autocompletion for `rcli` source corresponding files.
 
 #### Bash
 To enable completions for `bash` shell:
 1. Install completions package following ['Install bash-completion'](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-bash-completion) guide
 2. Source the completion file:
-```echo 'source <(cli completion bash)' >>~/.bashrc```
+```echo 'source <(rcli completion bash)' >>~/.bashrc```
 3. Make the bash completion script available:
-```cp ./completions/completions_bash /etc/bash_completion.d/cli```
+```cp ./completions/completions_bash /etc/bash_completion.d/rcli```
 4. Restart the shell
 
 #### PowerShell
