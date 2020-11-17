@@ -17,13 +17,29 @@ const (
 
 var (
 	validLangs = []string{
-		"en",
 		"ar",
-		"fr",
-		"it",
-		"ru",
-		"pt",
+		"da",
 		"de",
+		"en",
+		"es",
+		"fi",
+		"fr",
+		"he",
+		"id",
+		"it",
+		"ja",
+		"ko",
+		"nl",
+		"no",
+		"pl",
+		"pt",
+		"ru",
+		"sv",
+		"th",
+		"tr",
+		"ur",
+		"vi",
+		"zh",
 	}
 )
 
