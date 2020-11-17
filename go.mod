@@ -1,4 +1,4 @@
-module github.com/repustate/cli
+module github.com/repustate/rcli
 
 go 1.14
 

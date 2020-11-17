@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
-	client "github.com/repustate/cli/api-client/v4"
+	client "github.com/repustate/rcli/api-client/v4"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -15,7 +15,7 @@ var (
 	userUuid = ""
 
 	rootCmd = &cobra.Command{
-		Use:   "cli",
+		Use:   "rcli",
 		Short: "Repustate CLI for Semantic Search",
 		Long:  `Command-line interface to Repustate's Semantic Search engine`,
 		// populates user uuid every time executed

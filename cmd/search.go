@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	api "github.com/repustate/cli/api-client/v4"
+	api "github.com/repustate/rcli/api-client/v4"
 )
 
 const (
@@ -18,7 +18,7 @@ const (
 func newSearchCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search",
-		Short: "Finds documents for provided query",
+		Short: "Semantically searches index using the provided query",
 		Long: `Run multilingual semantic search across indexed documents using query provided. 
 
 To list all available query terms use '--list-terms'`,

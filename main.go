@@ -16,7 +16,7 @@ limitations under the License.
 package main
 
 import (
-	"github.com/repustate/cli/cmd"
+	"github.com/repustate/rcli/cmd"
 )
 
 func main() {

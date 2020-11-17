@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	api "github.com/repustate/cli/api-client/v4"
+	api "github.com/repustate/rcli/api-client/v4"
 	"github.com/spf13/cobra"
 )
 
@@ -47,10 +47,10 @@ var (
 func newIndexCmd(c *api.Client) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "index",
-		Short: "Index document for further multilingual semantic searches",
-		Long: fmt.Sprintf(`Index document for further multilingual semantic searches.
+		Short: "Add document to a semantic search index",
+		Long: fmt.Sprintf(`Add a document to a semantic search index.
 Usage example:
-cli index -t="The weather in London is good" -l=en
+rcli index -t="The weather in London is good" -l=en
 
 Valid language codes: %s`, strings.Join(validLangs, ", ")),
 		Run: func(cmd *cobra.Command, args []string) {
