@@ -31,6 +31,8 @@ currently supports and it allows you to store documents in one (or more)
 languages and retrieve them using English. That means you can have a corpus of
 Russian and Arabic text but search it using English queries.
 
+![](rcli.gif)
+
 ## About this demo
 
 This demo allows you to create your own semantic search index, index any text
