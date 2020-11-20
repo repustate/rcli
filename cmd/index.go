@@ -184,7 +184,7 @@ func printSearchHints(themes []string, sent string, classes []string) {
 
 	hints := make([]string, len(args))
 	for i, arg := range args {
-		hints[i] = "search " + strings.Join(arg, " ")
+		hints[i] = fmt.Sprintf("`rcli search %s`", strings.Join(arg, " "))
 	}
 	fmt.Printf("Now try: %s", strings.Join(hints, ", "))
 }
