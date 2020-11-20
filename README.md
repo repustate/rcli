@@ -48,6 +48,9 @@ At present, Repustate's semantic search requires you construct your queries
 using our own query language. Future releases will allow for pure natural
 language queries. To see a list of available semantic search terms, run `rcli search --list-terms`
 
+Alternatively, there are [autocomplete helpers for bash and PowerShell](completions/) that will
+suggest possible queries as you type.
+
 This demo is quite limited in the search capabilities it exposes. Visit the
 [semantic search](https://www.repustate.com/semantic-search/) page to get a
 fuller understanding of what this platform is capable of.
