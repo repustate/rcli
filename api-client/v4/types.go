@@ -1,5 +1,11 @@
 package v4
 
+type IndexResult struct {
+	Themes    []string `json:"themes"`
+	Sentiment string   `json:"sentiment"`
+	Entities  []Entity `json:"entities"`
+}
+
 type SearchResult struct {
 	Total     int        `json:"total"`
 	Documents []Document `json:"matches"`

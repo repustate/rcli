@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
+	"sort"
 	"strings"
 
 	api "github.com/repustate/rcli/api-client/v4"
@@ -82,13 +84,8 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 				text = string(data)
 			}
 
-			err := c.Index(text, lang, userUuid)
-			if err != nil {
-				msg := fmt.Sprintf("Failed to index document: %v", err)
-				printErr(msg)
-			} else {
-				printMsg("Document successfully indexed")
-			}
+			res, err := c.Index(text, lang, userUuid)
+			printIndexResult(res, err)
 		},
 		Example: "index --text=\"Paris is the capitol of France.\" -l=en\r\nindex --filename=~/myfiles/data.txt",
 	}
@@ -99,4 +96,104 @@ Valid language codes: %s`, strings.Join(validLangs, ", ")),
 	cmd.Flags().StringP(langFlag, "l", "", "Content language (default is English)")
 
 	return cmd
+}
+
+func printIndexResult(res *api.IndexResult, err error) {
+	if err != nil {
+		msg := fmt.Sprintf("Failed to index document: %v", err)
+		printErr(msg)
+	} else {
+		printMsg("Document successfully indexed.")
+		printThemes(res.Themes)
+		sentiment := printSentiment(res.Sentiment)
+		classes := printClassifications(res.Entities)
+
+		fmt.Println()
+		printSearchHints(res.Themes, sentiment, classes)
+	}
+}
+
+func printThemes(themes []string) {
+	if len(themes) == 0 {
+		fmt.Println("No themes detected.")
+	} else {
+		fmt.Println("Themes:")
+		for _, theme := range themes {
+			fmt.Printf("- %s\n", theme)
+		}
+	}
+}
+
+func printSentiment(sent string) string {
+	if sent == "neu" {
+		sent = "neutral"
+	} else if sent == "pos" {
+		sent = "positive"
+	} else if sent == "neg" {
+		sent = "negative"
+	}
+	fmt.Printf("Sentiment:\n- %s\n", sent)
+
+	return sent
+}
+
+func printClassifications(entities []api.Entity) []string {
+	// extract classifications list from detected entities
+	classesSet := map[string]bool{}
+	var classifications []string
+	for _, e := range entities {
+		for _, c := range e.Classifications {
+			if _, ok := classesSet[c]; !ok {
+				classesSet[c] = true
+				classifications = append(classifications, c)
+			}
+		}
+	}
+	sort.Strings(classifications)
+
+	if len(classifications) == 0 {
+		fmt.Println("No classifications found.")
+	} else {
+		fmt.Println("Classifications:")
+		for _, c := range classifications {
+			fmt.Printf("- %s\n", c)
+		}
+	}
+
+	return classifications
+}
+
+func printSearchHints(themes []string, sent string, classes []string) {
+	var args [][]string
+	// search hint for sentiment+theme
+	if len(classes) != 0 {
+		args = append(args, []string{pickRandElem(classes)})
+	}
+	// search hint for sentiment+theme
+	if len(themes) != 0 {
+		args = append(args, []string{sent, pickRandElem(themes)})
+	}
+	// search hint for sentiment+theme+classification
+	if len(themes) != 0 && len(classes) != 0 {
+		args = append(args, []string{sent, pickRandElem(themes), pickRandElem(classes)})
+	}
+	// add sentiment as last-hope search hint
+	if len(args) == 0 {
+		args = append(args, []string{sent})
+	}
+
+	hints := make([]string, len(args))
+	for i, arg := range args {
+		hints[i] = "search " + strings.Join(arg, " ")
+	}
+	fmt.Printf("Now try: %s", strings.Join(hints, ", "))
+}
+
+func pickRandElem(s []string) string {
+	if len(s) == 0 {
+		return ""
+	}
+
+	randomIndex := rand.Intn(len(s))
+	return s[randomIndex]
 }

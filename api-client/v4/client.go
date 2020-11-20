@@ -31,7 +31,7 @@ func New() (Client, error) {
 	}, nil
 }
 
-func (c *Client) Index(text, lang, user string) error {
+func (c *Client) Index(text, lang, user string) (*IndexResult, error) {
 	q := url.Values{}
 	q.Set("username", user)
 	if lang != "" {
@@ -43,11 +43,20 @@ func (c *Client) Index(text, lang, user string) error {
 	}
 	req, err := c.newRequest("index", http.MethodPost, q, data)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	_, err = requestDo(req)
-	return err
+	body, err := requestDo(req)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &IndexResult{}
+	if err := json.Unmarshal(body, res); err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (c *Client) Search(query, user string) (*SearchResult, error) {

@@ -92,7 +92,7 @@ func printSearchResult(res *api.SearchResult, err error) {
 		fmt.Printf("Found %d results:\n", res.Total)
 		for _, doc := range res.Documents {
 			fmt.Println("--------------------------------------------------------------------------------")
-			fmt.Printf("%s\r\n\r\nEntities:\r\n", doc.Text)
+			fmt.Printf("%s\n\nEntities:\n", doc.Text)
 			for _, entity := range doc.Entities {
 				classes := strings.Join(entity.Classifications, ", ")
 				fmt.Printf("\t%q (%s)\n", entity.Title, classes)
