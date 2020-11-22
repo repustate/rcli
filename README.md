@@ -1,3 +1,5 @@
+![](logo-repustate-dark.svg | width=300)
+
 # rcli
 
 A command line interface for trying out [Repustate's multilingual semantic search](https://www.repustate.com/semantic-search/). 
