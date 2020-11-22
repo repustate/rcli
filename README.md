@@ -37,8 +37,8 @@ Russian and Arabic text but search it using English queries.
 
 This demo allows you to create your own semantic search index, index any text
 documents you have and make some queries, all from your shell, all for free.
-Your index (and all of the data you indexed) will be deleted after 24 hours -
-this is just to give you a taste of Repustate's semantic technology. Please
+** Your index (and all of the data you indexed) will be deleted after 24 hours **
+- this is just to give you a taste of Repustate's semantic technology. Please
 [contact us](https://www.repustate.com/contact/) if you're interested in a
 commercial license.
 
