@@ -14,21 +14,28 @@ A command line interface for trying out [Repustate's multilingual semantic searc
 ## What is semantic search?
 
 In traditional free text search applications, you use keywords and optionally
-boolean operators to perform lexical matches against the text without actually
+boolean operators to perform lexical (string) matches against the text without actually
 understanding what the text is about semantically. 
 
-Semantic search attempts to understand the topics, entities, themes etc.
-mentioned in the text document (or video, audio, image file) and expose them as
-searchable elements at a very high level. For more concrete examples, consider
-the following problems and ask yourself how you'd solve these using keywords:
+But this has its limitations. Imagine you had a document that said *"I like
+pizza"*. If you entered "food" as a query in free text search engines like Solr,
+Elasticsearch, Lucene etc. you'd get 0 hits. But pizza is a type of food - it
+should return a match!
 
-1. Find all pharmaceutical drugs mentioned in a collection of patents
+Semantic search solves this problem by understanding the topics, entities,
+themes and context of the text in a given document (or video, audio, image
+file) and exposes these aspects as searchable elements.
+
+For more concrete examples, consider the following problems and ask yourself
+how you'd solve these using the traditional keyword approach:
+
+1. Find all pharmaceutical drugs, brand name or generic, mentioned in a collection of patents
 2. Find any female US politician under the age of 50 mentioned in a collection of Tweets
 3. Find any local news videos about locations within 10km of your house
 
 ## What is the multilingual part about?
 
-This semantic search technology works in any of the over 20 languages Repustate
+Repustate's semantic search technology works in any of the over 20 languages Repustate
 currently supports and it allows you to store documents in one (or more)
 languages and retrieve them using English. That means you can have a corpus of
 Russian and Arabic text but search it using English queries.
