@@ -1,4 +1,4 @@
-<img src=logo-repustate-dark.svg width=200>
+<a href="https://www.repustate.com"><img src=logo-repustate-dark.svg width=200></a>
 
 # rcli
 
