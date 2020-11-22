@@ -1,4 +1,4 @@
-![](logo-repustate-dark.svg | width=300)
+<img src=logo-repustate-dark.svg width=200>
 
 # rcli
 
