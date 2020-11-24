@@ -44,12 +44,23 @@ Russian and Arabic text but search it using English queries.
 
 ## About this demo
 
-This demo allows you to create your own semantic search index, index any text
-documents you have and make some queries, all from your shell, all for free.
-**Your index (and all of the data you indexed) will be deleted after 24 hours**
+This demo indexes any text you submit to it and will automatically extract and semantic data, making it searchable thereafter. The languages supported in this demo are:
+
+- English (en)
+- Arabic (ar)
+- Russian (ru)
+- German (de)
+- French (fr)
+- Spanish (es)
+
+At present, you have to specify the language code along with the text you
+submit if the language isn't English. We will add automatic language detection
+in a future release.
+
+**NOTE: Your index (and all of the data you indexed) will be deleted after 24 hours**
 . This is just to give you a taste of Repustate's semantic technology. Please
 [contact us](https://www.repustate.com/contact/) if you're interested in a
-commercial license.
+commercial license or a more extensive free trial.
 
 ## Searching
 
