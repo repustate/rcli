@@ -18,29 +18,15 @@ const (
 )
 
 var (
+	// Restrict which languages we allow in the demo. For a full list of
+	// supported languages, visit https://www.repustate.com
 	validLangs = []string{
 		"ar",
-		"da",
 		"de",
 		"en",
 		"es",
-		"fi",
 		"fr",
-		"he",
-		"id",
-		"it",
-		"ja",
-		"ko",
-		"nl",
-		"no",
-		"pl",
-		"pt",
 		"ru",
-		"sv",
-		"th",
-		"tr",
-		"ur",
-		"vi",
 		"zh",
 	}
 )
